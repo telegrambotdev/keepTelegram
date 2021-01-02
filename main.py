@@ -1,9 +1,9 @@
+import dbWorker
+import os
 import telebot
 from dotenv import load_dotenv
 load_dotenv()
 
-import os
-import dbWorker
 
 bot = telebot.TeleBot(os.getenv("TOKEN"))
 
@@ -16,7 +16,9 @@ def send_welcome(message):
 @bot.message_handler(commands=['add'])
 def add_note(message):
     conn = dbWorker.connect(os.getenv("DB_PATH"))
-    dbWorker.add_note(conn, conn.cursor(), ['test_id', 'test_header', 'test_text', 1, 'test_time'])
+    dbWorker.add_note(
+        conn, conn.cursor(), [
+            'test_id', 'test_header', 'test_text', 1, 'test_time'])
     bot.reply_to(message, "Hello, how are you?")
     conn.close()
     print('Closing connection is successful')

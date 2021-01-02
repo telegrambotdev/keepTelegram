@@ -1,4 +1,6 @@
 import sqlite3
+
+
 def create_db(path):
     conn = sqlite3.connect(path)
     cursor = conn.cursor()
@@ -12,6 +14,7 @@ def create_db(path):
 )
                    """
     cursor.execute(sql)
+
 
 def connect(path):
     try:
