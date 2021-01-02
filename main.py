@@ -22,6 +22,16 @@ def add_note(message):
     print('Closing connection is successful')
 
 
+@bot.message_handler(commands=['get'])
+def get_notes(message):
+    conn = dbWorker.connect(os.getenv("DB_PATH"))
+    data = dbWorker.get_notes(conn.cursor(), 'test_id')
+    bot.reply_to(message, "Hello, how are you?")
+    conn.close()
+    print('Data is: ', data)
+    print('Closing connection is successful')
+
+
 @bot.message_handler(func=lambda message: True)
 def echo_all(message):
     bot.reply_to(message, message.text)
