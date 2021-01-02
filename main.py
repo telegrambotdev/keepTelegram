@@ -9,13 +9,19 @@ import sqlite3
 bot = telebot.TeleBot(os.getenv("TOKEN"))
 
 
-@bot.message_handler(commands=['start', 'help'])
+@bot.message_handler(commands=['help'])
 def send_welcome(message):
     try:
-        dbWorker.connect(os.getenv("DB_PATH"))
         print('Connection is successful')
     except sqlite3.Error as e:
         print(f'Error: {e}')
+    bot.reply_to(message, "Hello, how are you?")
+
+
+@bot.message_handler(commands=['add'])
+def add_note(message):
+    conn = dbWorker.connect(os.getenv("DB_PATH"))
+    dbWorker.add_note(conn, conn.cursor(), ['test_id', 'test_header', 'test_text', 1, 'test_time'])
     bot.reply_to(message, "Hello, how are you?")
 
 
