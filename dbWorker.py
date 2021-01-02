@@ -6,14 +6,14 @@ def create_db(path):
     cursor = conn.cursor()
 
     sql = """CREATE TABLE "notes" (
-	"chat_id"	TEXT NOT NULL,
-	"header"	TEXT,
-	"text"	TEXT,
-	"status"	INTEGER NOT NULL DEFAULT 0,
-	"time"	TEXT
-)
-                   """
+                "chat_id"	TEXT NOT NULL,
+                "header"	TEXT,
+                "text"	TEXT,
+                "status"	INTEGER NOT NULL DEFAULT 0,
+                "time"	TEXT
+            )"""
     cursor.execute(sql)
+    return True
 
 
 def connect(path):
