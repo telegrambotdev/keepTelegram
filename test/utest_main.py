@@ -45,18 +45,22 @@ class DBTest2(unittest.TestCase, Parent):
         cursor = conn.cursor()
         data = 'test_id'
         self.assertIsNotNone(dbWorker.get_notes(cursor, data))
-        self.assertListEqual(dbWorker.get_notes(cursor, data),
-                             [('test_id', 'test_header', 'test_text', 1, 'test_time')])
+        self.assertListEqual(
+            dbWorker.get_notes(
+                cursor, data), [
+                ('test_id', 'test_header', 'test_text', 1, 'test_time')])
         self.assertListEqual(dbWorker.get_notes(cursor, ''), [])
 
 
 class TelegramTest(unittest.TestCase, Parent):
     """Class for testing connecting with Telegram API"""
+
     def setUp(self):
         """Make requests"""
         self.getMe = requests.get(self.url + 'getMe')
         self.getUpdates = requests.get(self.url + 'getUpdates')
-        self.sendMessage = requests.get(self.url + f'sendMessage?chat_id={self.chat_id}&text={self.test_text}')
+        self.sendMessage = requests.get(
+            self.url + f'sendMessage?chat_id={self.chat_id}&text={self.test_text}')
 
     def test_conn(self):
         """Test connection with different methods"""
@@ -70,7 +74,13 @@ class TelegramTest(unittest.TestCase, Parent):
         self.assertTrue(self.getUpdates.json()["ok"])
         self.assertTrue(self.sendMessage.json()["ok"])
         self.assertTrue(self.getMe.json()["result"]["is_bot"])
-        self.assertFalse(self.getMe.json()["result"]["can_read_all_group_messages"])
-        self.assertFalse(self.getMe.json()["result"]["supports_inline_queries"])
-        self.assertEqual(self.getMe.json()["result"]["first_name"], self.bot_name)
-        self.assertEqual(self.sendMessage.json()["result"]["text"], self.test_text)
+        self.assertFalse(
+            self.getMe.json()["result"]["can_read_all_group_messages"])
+        self.assertFalse(
+            self.getMe.json()["result"]["supports_inline_queries"])
+        self.assertEqual(
+            self.getMe.json()["result"]["first_name"],
+            self.bot_name)
+        self.assertEqual(
+            self.sendMessage.json()["result"]["text"],
+            self.test_text)
