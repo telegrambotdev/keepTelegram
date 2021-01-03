@@ -53,6 +53,8 @@ jobs:
       - name: Test with unittests
         run: |
           python -m unittest -v test/utest_main.py
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TG_TOKEN }}
       ################################
       # Run Linter against code base #
       ################################
@@ -60,5 +62,4 @@ jobs:
         uses: mezgoodle/auto-formatter@v1.0.1
         env:
             GITHUB_TOKEN: ${{ secrets.TOKEN }}
-            TELEGRAM_TOKEN: ${{ secrets.TG_TOKEN }}
             python: true

@@ -10,7 +10,6 @@ class Parent:
     path = './database.db'
     token = os.getenv('TELEGRAM_TOKEN')
     url = f'https://api.telegram.org/bot{token}/'
-    print(token)
     ok_status_code = 200
     bot_name = 'Telegram Keep'
 
