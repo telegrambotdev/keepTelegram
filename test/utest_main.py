@@ -1,5 +1,5 @@
 import unittest
-import dbWorker
+import .dbWorker
 
 
 class DBTest(unittest.TestCase):
