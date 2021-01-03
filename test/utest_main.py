@@ -51,17 +51,21 @@ class DBTest2(unittest.TestCase, Parent):
 
 
 class TelegramTest(unittest.TestCase, Parent):
+    """Class for testing connecting with Telegram API"""
     def setUp(self):
+        """Make requests"""
         self.getMe = requests.get(self.url + 'getMe')
         self.getUpdates = requests.get(self.url + 'getUpdates')
         self.sendMessage = requests.get(self.url + f'sendMessage?chat_id={self.chat_id}&text={self.test_text}')
 
     def test_conn(self):
+        """Test connection with different methods"""
         self.assertEqual(self.getMe.status_code, self.ok_status_code)
         self.assertEqual(self.getUpdates.status_code, self.ok_status_code)
         self.assertEqual(self.sendMessage.status_code, self.ok_status_code)
 
     def test_fields(self):
+        """Test fields from different request methods"""
         self.assertTrue(self.getMe.json()["ok"])
         self.assertTrue(self.getUpdates.json()["ok"])
         self.assertTrue(self.sendMessage.json()["ok"])
