@@ -39,8 +39,7 @@ jobs:
 
       - name: Test with unittests
         run: |
-          cd test
-          python -m unittest utest_main.py
+          python -m unittest test/utest_main.py
       ################################
       # Run Linter against code base #
       ################################
