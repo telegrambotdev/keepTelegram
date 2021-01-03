@@ -54,7 +54,7 @@ class TelegramTest(unittest.TestCase, Parent):
     def setUp(self):
         self.getMe = requests.get(self.url + 'getMe')
         self.getUpdates = requests.get(self.url + 'getUpdates')
-        self.sendMessage = requests.get(self.url + f'sendMessage/{self.test_text}')
+        self.sendMessage = requests.get(self.url + f'sendMessage?chat_id={self.chat_id}&text={self.test_text}')
 
     def test_conn(self):
         self.assertEqual(self.getMe.status_code, self.ok_status_code)
