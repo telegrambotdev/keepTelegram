@@ -5,15 +5,19 @@ def create_db(path):
     conn = sqlite3.connect(path)
     cursor = conn.cursor()
 
-    sql = """CREATE TABLE "notes" (
-                "chat_id"	TEXT NOT NULL,
-                "header"	TEXT,
-                "text"	TEXT,
-                "status"	INTEGER NOT NULL DEFAULT 0,
-                "time"	TEXT
-            )"""
-    cursor.execute(sql)
-    return True
+    try:
+        sql = """CREATE TABLE "notes" (
+                    "chat_id"	TEXT NOT NULL,
+                    "header"	TEXT,
+                    "text"	TEXT,
+                    "status"	INTEGER NOT NULL DEFAULT 0,
+                    "time"	TEXT
+                )"""
+        cursor.execute(sql)
+        return True
+    except sqlite3.Error as e:
+        print(f'Error: {e}')
+        return False
 
 
 def connect(path):
