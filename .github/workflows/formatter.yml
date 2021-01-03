@@ -39,7 +39,7 @@ jobs:
 
       - name: Test with unittests
         run: |
-          python -m unittest test/utest_main.py
+          python -m unittest -v test/utest_main.py
       ################################
       # Run Linter against code base #
       ################################
