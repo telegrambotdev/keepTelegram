@@ -1,5 +1,5 @@
 import unittest
-from dbWorker import create_db
+from bot.dbWorker import create_db
 
 
 class DBTest(unittest.TestCase):

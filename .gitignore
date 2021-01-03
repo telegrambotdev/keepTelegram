@@ -245,4 +245,4 @@ pyvenv.cfg
 pip-selfcheck.json
 
 ### Database ###
-db.*
+bot/db.db
