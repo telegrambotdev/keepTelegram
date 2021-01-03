@@ -1,7 +1,7 @@
 import unittest
-from bot.dbWorker import create_db
+from bot import dbWorker
 
 
 class DBTest(unittest.TestCase):
     def test_create(self):
-        self.assertTrue(create_db('./database.db'))
+        self.assertTrue(dbWorker.create_db('./database.db'))
