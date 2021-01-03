@@ -2,15 +2,19 @@ import unittest
 from bot import dbWorker
 
 
-class DBTest(unittest.TestCase):
+class Path:
     path = './database.db'
 
+
+class DBTest1(unittest.TestCase, Path):
     def test_create(self):
         self.assertTrue(dbWorker.create_db(self.path))
 
     def test_conn(self):
         self.assertIsNotNone(dbWorker.connect(self.path))
 
+
+class DBTest2(unittest.TestCase, Path):
     def test_add(self):
         conn = dbWorker.connect(self.path)
         cursor = conn.cursor()
