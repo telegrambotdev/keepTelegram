@@ -15,18 +15,18 @@ def send_welcome(message):
 
 @bot.message_handler(commands=['add'])
 def add_note(message):
-    conn = dbWorker.connect(os.getenv("DB_PATH"))
     chat_id = message.chat.id
     data = message.text.split('\n')[1:]
     print(data)
     if len(data) == 3:
+        conn = dbWorker.connect(os.getenv("DB_PATH"))
+        dbWorker.add_note(
+            conn, conn.cursor(), [
+                chat_id, data[0], data[1], 0, data[2]])
+        conn.close()
         bot.send_message(chat_id, "good")
     else:
         bot.send_message(chat_id, "bad")
-    # dbWorker.add_note(
-    #     conn, conn.cursor(), [
-    #         chat_id, 'test_header', 'test_text', 0, 'test_time'])
-    conn.close()
     print('Closing connection is successful')
 
 
