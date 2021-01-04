@@ -17,8 +17,9 @@ def send_welcome(message):
 def add_note(message):
     conn = dbWorker.connect(os.getenv("DB_PATH"))
     chat_id = message.chat.id
-    print(message.text.split('\n'))
-    if len(message.text.split('\n')) == 2:
+    data = message.text.split('\n')[1:]
+    print(data)
+    if len(data) == 3:
         bot.send_message(chat_id, "good")
     else:
         bot.send_message(chat_id, "bad")
