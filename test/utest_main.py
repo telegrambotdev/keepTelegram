@@ -1,6 +1,7 @@
 import os
 import requests
 import unittest
+import time
 
 from bot import dbWorker
 
@@ -31,25 +32,27 @@ class DBTest1(unittest.TestCase, Parent):
 
 class DBTest2(unittest.TestCase, Parent):
     """First class for testing work with database"""
+    timestamp = time.time()
 
     def test_add(self):
         """Test adding data to database"""
         conn = dbWorker.connect(self.path)
         cursor = conn.cursor()
-        data = ['test_id', 'test_header', 'test_text', 1, 'test_time']
-        self.assertTrue(dbWorker.add_note(conn, cursor, data))
+        data = ['test_id', 'test_header', 'test_text', 1, 'test_time', self.timestamp]
+        self.assertTrue(dbWorker.add(conn, cursor, data))
 
     def test_get(self):
         """Test getting data from database"""
         conn = dbWorker.connect(self.path)
         cursor = conn.cursor()
+        parameter = 'chat_id'
         data = 'test_id'
-        self.assertIsNotNone(dbWorker.get_notes(cursor, data))
+        self.assertIsNotNone(dbWorker.get(cursor, parameter, data))
         self.assertListEqual(
-            dbWorker.get_notes(
-                cursor, data), [
-                ('test_id', 'test_header', 'test_text', 1, 'test_time')])
-        self.assertListEqual(dbWorker.get_notes(cursor, ''), [])
+            dbWorker.get(
+                cursor, parameter, data), [
+                ('test_id', 'test_header', 'test_text', 1, 'test_time', self.timestamp)])
+        self.assertListEqual(dbWorker.get(cursor, parameter, ''), [])
 
 
 class TelegramTest(unittest.TestCase, Parent):
