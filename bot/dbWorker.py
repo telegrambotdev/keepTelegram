@@ -11,7 +11,8 @@ def create_db(path):
                     "header"	TEXT,
                     "text"	TEXT,
                     "status"	INTEGER NOT NULL DEFAULT 0,
-                    "time"	TEXT
+                    "time"	TEXT,
+                    "id"	INTEGER
                 )"""
         cursor.execute(sql)
         return True
@@ -30,11 +31,11 @@ def connect(path):
     return conn
 
 
-def add_note(conn, cursor, data):
+def add(conn, cursor, data):
     try:
         sql = f"""INSERT INTO notes
                     VALUES ('{data[0]}', '{data[1]}', '{data[2]}',
-                  '{data[3]}', '{data[4]}')"""
+                  '{data[3]}', '{data[4]}', '{data[5]}')"""
         cursor.execute(sql)
         conn.commit()
         print('Values added successfully')
@@ -44,10 +45,10 @@ def add_note(conn, cursor, data):
     return True
 
 
-def get_notes(cursor, chat_id):
+def get(cursor, parameter, value):
     try:
-        sql = "SELECT * FROM notes WHERE chat_id=?"
-        cursor.execute(sql, [chat_id])
+        sql = f"SELECT * FROM notes WHERE {parameter}=?"
+        cursor.execute(sql, [value])
     except sqlite3.Error as e:
         print(f'Error: {e}')
         return None
