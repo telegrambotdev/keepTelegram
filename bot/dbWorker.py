@@ -1,55 +1,54 @@
 import sqlite3
 
 
-def create_db(path):
-    conn = sqlite3.connect(path)
-    cursor = conn.cursor()
+class SQLighter:
+    def __init__(self, path):
+        self.connection = sqlite3.connect(path)
+        self.cursor = self.connection.cursor()
 
-    try:
-        sql = """CREATE TABLE "notes" (
-                    "chat_id"	TEXT NOT NULL,
-                    "header"	TEXT,
-                    "text"	TEXT,
-                    "status"	INTEGER NOT NULL DEFAULT 0,
-                    "time"	TEXT,
-                    "id"	INTEGER
-                )"""
-        cursor.execute(sql)
+    def create(self):
+        try:
+            sql = """CREATE TABLE "notes" (
+                        "chat_id"	TEXT NOT NULL,
+                        "header"	TEXT,
+                        "text"	TEXT,
+                        "status"	INTEGER NOT NULL DEFAULT 0,
+                        "time"	TEXT,
+                        "id"	INTEGER
+                    )"""
+            self.cursor.execute(sql)
+            return True
+        except sqlite3.Error as e:
+            print(f'Error: {e}')
+            return False
+
+    def add(self, data):
+        try:
+            sql = f"""INSERT INTO notes
+                        VALUES ('{data[0]}', '{data[1]}', '{data[2]}',
+                      '{data[3]}', '{data[4]}', '{data[5]}')"""
+            self.cursor.execute(sql)
+            self.connection.commit()
+            print('Values added successfully')
+        except sqlite3.Error as e:
+            print(f'Error: {e}')
+            return False
         return True
-    except sqlite3.Error as e:
-        print(f'Error: {e}')
-        return False
+
+    def get(self, parameter, value):
+        try:
+            sql = f"SELECT * FROM notes WHERE {parameter}=?"
+            self.cursor.execute(sql, [value])
+        except sqlite3.Error as e:
+            print(f'Error: {e}')
+            return None
+        return self.cursor.fetchall()
+
+    def close(self):
+        self.connection.close()
 
 
-def connect(path):
-    try:
-        conn = sqlite3.connect(path)
-        print('Connection is successful')
-    except sqlite3.Error as e:
-        print(f'Error: {e}')
-        return None
-    return conn
 
 
-def add(conn, cursor, data):
-    try:
-        sql = f"""INSERT INTO notes
-                    VALUES ('{data[0]}', '{data[1]}', '{data[2]}',
-                  '{data[3]}', '{data[4]}', '{data[5]}')"""
-        cursor.execute(sql)
-        conn.commit()
-        print('Values added successfully')
-    except sqlite3.Error as e:
-        print(f'Error: {e}')
-        return False
-    return True
 
 
-def get(cursor, parameter, value):
-    try:
-        sql = f"SELECT * FROM notes WHERE {parameter}=?"
-        cursor.execute(sql, [value])
-    except sqlite3.Error as e:
-        print(f'Error: {e}')
-        return None
-    return cursor.fetchall()
