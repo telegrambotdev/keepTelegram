@@ -46,9 +46,3 @@ class SQLighter:
 
     def close(self):
         self.connection.close()
-
-
-
-
-
-
