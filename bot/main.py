@@ -38,11 +38,13 @@ def add_note(message):
         note = SQLighter.get('id', timestamp)
         if not note:
             SQLighter.add([
-                    chat_id, data[0], data[1], 0, data[2], timestamp])
+                chat_id, data[0], data[1], 0, data[2], timestamp])
             SQLighter.close()
-            bot.send_message(chat_id, f'Your note with the header \"{data[0]}\" has been added')
+            bot.send_message(
+                chat_id, f'Your note with the header \"{data[0]}\" has been added')
         else:
-            bot.send_message(chat_id, f'Note with the header \"{data[0]}\" exists')
+            bot.send_message(
+                chat_id, f'Note with the header \"{data[0]}\" exists')
     else:
         bot.send_message(chat_id, 'Please, write you message correctly')
     print('Closing connection is successful')

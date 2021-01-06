@@ -37,7 +37,13 @@ class DBTest2(unittest.TestCase, Parent):
 
     def test_add(self):
         """Test adding data to database"""
-        data = ['test_id', 'test_header', 'test_text', 1, 'test_time', self.timestamp]
+        data = [
+            'test_id',
+            'test_header',
+            'test_text',
+            1,
+            'test_time',
+            self.timestamp]
         self.assertTrue(self.SQLighter.add(data))
 
     def test_get(self):
