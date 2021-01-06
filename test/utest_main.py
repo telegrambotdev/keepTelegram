@@ -1,6 +1,7 @@
 import os
 import requests
 import unittest
+import time
 
 from bot import dbWorker
 
@@ -14,6 +15,8 @@ class Parent:
     bot_name = 'Telegram Keep'
     chat_id = os.getenv('CHAT_ID')
     test_text = 'test'
+    SQLighter = dbWorker.SQLighter(path)
+    timestamp = time.time()
 
 
 class DBTest1(unittest.TestCase, Parent):
@@ -21,12 +24,12 @@ class DBTest1(unittest.TestCase, Parent):
 
     def test_create(self):
         """Test creation of database"""
-        self.assertTrue(dbWorker.create_db(self.path))
-        self.assertFalse(dbWorker.create_db(self.path))
+        self.assertTrue(self.SQLighter.create())
+        self.assertFalse(self.SQLighter.create())
 
     def test_conn(self):
         """Test connection to database"""
-        self.assertIsNotNone(dbWorker.connect(self.path))
+        self.assertIsNotNone(dbWorker.SQLighter(self.path))
 
 
 class DBTest2(unittest.TestCase, Parent):
@@ -34,22 +37,19 @@ class DBTest2(unittest.TestCase, Parent):
 
     def test_add(self):
         """Test adding data to database"""
-        conn = dbWorker.connect(self.path)
-        cursor = conn.cursor()
-        data = ['test_id', 'test_header', 'test_text', 1, 'test_time']
-        self.assertTrue(dbWorker.add_note(conn, cursor, data))
+        data = ['test_id', 'test_header', 'test_text', 1, 'test_time', self.timestamp]
+        self.assertTrue(self.SQLighter.add(data))
 
     def test_get(self):
         """Test getting data from database"""
-        conn = dbWorker.connect(self.path)
-        cursor = conn.cursor()
+        parameter = 'chat_id'
         data = 'test_id'
-        self.assertIsNotNone(dbWorker.get_notes(cursor, data))
+        self.assertIsNotNone(self.SQLighter.get(parameter, data))
         self.assertListEqual(
-            dbWorker.get_notes(
-                cursor, data), [
-                ('test_id', 'test_header', 'test_text', 1, 'test_time')])
-        self.assertListEqual(dbWorker.get_notes(cursor, ''), [])
+            self.SQLighter.get(
+                parameter, data), [
+                ('test_id', 'test_header', 'test_text', 1, 'test_time', self.timestamp)])
+        self.assertListEqual(self.SQLighter.get(parameter, ''), [])
 
 
 class TelegramTest(unittest.TestCase, Parent):
