@@ -30,17 +30,17 @@ def send_welcome(message):
 
 @bot.message_handler(commands=['add'])
 def add_note(message):
-    SQLighter = dbWorker.SQLighter(os.getenv('DB_PATH'))
+    sqlighter = dbWorker.SQLighter(os.getenv('DB_PATH'))
     chat_id = message.chat.id
     data = message.text.split('\n')[1:]
     timestamp = time.time()
     print(data)
     if len(data) == 3:
-        note = SQLighter.get('id', timestamp)
+        note = sqlighter.get('id', timestamp)
         if not note:
-            SQLighter.add([
+            sqlighter.add([
                 chat_id, data[0], data[1], 0, data[2], timestamp])
-            SQLighter.close()
+            sqlighter.close()
             bot.send_message(
                 chat_id, f'Your note with the header \"{data[0]}\" has been added')
         else:
@@ -53,31 +53,36 @@ def add_note(message):
 
 @bot.message_handler(commands=['get'])
 def get_notes(message):
-    SQLighter = dbWorker.SQLighter(os.getenv('DB_PATH'))
+    sqlighter = dbWorker.SQLighter(os.getenv('DB_PATH'))
     bot.reply_to(message, 'Your notes:')
     chat_id = message.chat.id
-    data = SQLighter.get('chat_id', chat_id)
+    data = sqlighter.get('chat_id', chat_id)
     for note in data:
-        msg = note_template(note)
+        msg = note_template(note) # message template
+
+        # Markup for note
         markup = types.InlineKeyboardMarkup(row_width=2)
-        item1 = types.InlineKeyboardButton('Edit', callback_data='edit')
-        item2 = types.InlineKeyboardButton('Delete', callback_data='delete')
+        item1 = types.InlineKeyboardButton('Edit', callback_data=f'edit{note[5]}')
+        item2 = types.InlineKeyboardButton('Delete', callback_data=f'delete{note[5]}')
         markup.add(item1, item2)
+
         bot.send_message(chat_id, msg, parse_mode='HTML', reply_markup=markup)
-    SQLighter.close()
+    sqlighter.close()
     print('Closing connection is successful')
 
 
-@bot.callback_query_handlers(func=lambda call:True)
+@bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
     try:
         if call.message:
-            if call.data == 'edit':
-                bot.send_message(call.message.chat.id, 'Nice')
-            elif call.data == 'bad':
-                bot.send_message(call.message.chat.id, 'Nice')
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Nice',
-                                  reply_markup=None)
+            if call.data.startswith('edit'):
+                bot.send_message(call.message.chat.id, call.data)
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Edited',
+                                      reply_markup=None)
+            elif call.data.startswith('delete'):
+                bot.send_message(call.message.chat.id, call.data)
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Deleted',
+                                      reply_markup=None)
     except Exception as e:
         print(repr(e))
 
