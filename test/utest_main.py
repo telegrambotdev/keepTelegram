@@ -33,7 +33,7 @@ class DBTest1(unittest.TestCase, Parent):
 
 
 class DBTest2(unittest.TestCase, Parent):
-    """First class for testing work with database"""
+    """Second class for testing work with database"""
 
     def test_add(self):
         """Test adding data to database"""
@@ -56,6 +56,18 @@ class DBTest2(unittest.TestCase, Parent):
                 parameter, data), [
                 ('test_id', 'test_header', 'test_text', 1, 'test_time', self.timestamp)])
         self.assertListEqual(self.SQLighter.get(parameter, ''), [])
+
+
+class DBTest3(unittest.TestCase, Parent):
+    """Second class for testing work with database"""
+
+    def test_delete(self):
+        """Test deleting data from database"""
+        parameter = 'chat_id'
+        data = 'test_id'
+        self.assertTrue(self.SQLighter.delete(parameter, data))
+        self.assertFalse(self.SQLighter.delete('', ''))
+        self.assertListEqual(self.SQLighter.get(parameter, data), [])
 
 
 class TelegramTest(unittest.TestCase, Parent):
