@@ -17,10 +17,10 @@ class SQLighter:
                         "id"	INTEGER
                     )"""
             self.cursor.execute(sql)
-            return True
         except sqlite3.Error as e:
             print(f'Error: {e}')
             return False
+        return True
 
     def add(self, data):
         try:
@@ -43,6 +43,17 @@ class SQLighter:
             print(f'Error: {e}')
             return None
         return self.cursor.fetchall()
+
+    def delete(self, parameter, value):
+        try:
+            sql = f"DELETE FROM notes WHERE {parameter}=?"
+            self.cursor.execute(sql, [value])
+            self.connection.commit()
+            print('Note has been deleted successfully')
+        except sqlite3.Error as e:
+            print(f'Error: {e}')
+            return False
+        return True
 
     def close(self):
         self.connection.close()
