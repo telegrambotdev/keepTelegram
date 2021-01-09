@@ -34,7 +34,6 @@ def add_note(message):
     chat_id = message.chat.id
     data = message.text.split('\n')[1:]
     timestamp = time.time()
-    print(data)
     if len(data) == 3:
         note = sqlighter.get('id', timestamp)
         if not note:
@@ -61,10 +60,11 @@ def get_notes(message):
         msg = note_template(note) # message template
 
         # Markup for note
-        markup = types.InlineKeyboardMarkup(row_width=2)
-        item1 = types.InlineKeyboardButton('Edit', callback_data=f'edit{note[5]}')
-        item2 = types.InlineKeyboardButton('Delete', callback_data=f'delete{note[5]}')
-        markup.add(item1, item2)
+        markup = types.InlineKeyboardMarkup(row_width=3)
+        item1 = types.InlineKeyboardButton('Mark as \"ready\"', callback_data=f'mark{note[5]}')
+        item2 = types.InlineKeyboardButton('Edit', callback_data=f'edit{note[5]}')
+        item3 = types.InlineKeyboardButton('Delete', callback_data=f'delete{note[5]}')
+        markup.add(item1, item2, item3)
 
         bot.send_message(chat_id, msg, parse_mode='HTML', reply_markup=markup)
     sqlighter.close()
@@ -73,18 +73,29 @@ def get_notes(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
+    sqlighter = dbWorker.SQLighter(os.getenv('DB_PATH'))
+    parameter = 'id'
+    edit_str = 'edit'
+    delete_str = 'delete'
+    mark_str = 'mark'
     try:
         if call.message:
-            if call.data.startswith('edit'):
+            if call.data.startswith(edit_str):
                 bot.send_message(call.message.chat.id, call.data)
                 bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Edited',
                                       reply_markup=None)
-            elif call.data.startswith('delete'):
-                bot.send_message(call.message.chat.id, call.data)
+            elif call.data.startswith(delete_str):
+                sqlighter.delete(parameter, call.data[len(delete_str):])
                 bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Deleted',
                                       reply_markup=None)
+            elif call.data.startswith(mark_str):
+                bot.send_message(call.message.chat.id, call.data)
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Marked',
+                                      reply_markup=None)
+
     except Exception as e:
         print(repr(e))
+    sqlighter.close()
 
 
 @bot.message_handler(func=lambda message: True)
