@@ -2,6 +2,7 @@ from bot import dbWorker
 import os
 import time
 import telebot
+from telebot import types
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -58,9 +59,27 @@ def get_notes(message):
     data = SQLighter.get('chat_id', chat_id)
     for note in data:
         msg = note_template(note)
-        bot.send_message(chat_id, msg, parse_mode='HTML')
+        markup = types.InlineKeyboardMarkup(row_width=2)
+        item1 = types.InlineKeyboardButton('Edit', callback_data='edit')
+        item2 = types.InlineKeyboardButton('Delete', callback_data='delete')
+        markup.add(item1, item2)
+        bot.send_message(chat_id, msg, parse_mode='HTML', reply_markup=markup)
     SQLighter.close()
     print('Closing connection is successful')
+
+
+@bot.callback_query_handlers(func=lambda call:True)
+def callback_inline(call):
+    try:
+        if call.message:
+            if call.data == 'edit':
+                bot.send_message(call.message.chat.id, 'Nice')
+            elif call.data == 'bad':
+                bot.send_message(call.message.chat.id, 'Nice')
+            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Nice',
+                                  reply_markup=None)
+    except Exception as e:
+        print(repr(e))
 
 
 @bot.message_handler(func=lambda message: True)
