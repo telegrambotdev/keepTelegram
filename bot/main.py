@@ -98,6 +98,7 @@ def callback_inline(call):
                     text='Deleted',
                     reply_markup=None)
             elif call.data.startswith(mark_str):
+                sqlighter.update('status', 1, 'id', call.data[len(mark_str):])
                 bot.send_message(call.message.chat.id, call.data)
                 bot.edit_message_text(
                     chat_id=call.message.chat.id,

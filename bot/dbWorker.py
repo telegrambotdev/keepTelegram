@@ -49,6 +49,7 @@ class SQLighter:
             sql = f"UPDATE notes SET {parameter_to_set}=? WHERE {parameter_to_search}=?"
             self.cursor.execute(sql, [value_to_set, value_to_search])
             self.connection.commit()
+            print('Values updated successfully')
         except sqlite3.Error as e:
             print(f'Error: {e}')
             return False
