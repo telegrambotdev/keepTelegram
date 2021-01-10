@@ -8,6 +8,10 @@ from dotenv import load_dotenv
 load_dotenv()
 # ------------ Program variable start ----------- #
 bot = telebot.TeleBot(os.getenv("TOKEN"))
+status_codes = {
+    0: {'str': 'ready', 'int': 1},
+    1: {'str': 'unready', 'int': 0},
+}
 # ------------ Program variables end ------------ #
 
 
@@ -62,7 +66,7 @@ def get_notes(message):
         # Markup for note
         markup = types.InlineKeyboardMarkup(row_width=3)
         item1 = types.InlineKeyboardButton(
-            'Mark as \"ready\"', callback_data=f'mark{note[5]}')
+            f'Mark as \"{status_codes[note[3]].get("str")}\"', callback_data=f'mark{note[5]}{status_codes[note[3]].get("int")}')
         item2 = types.InlineKeyboardButton(
             'Edit', callback_data=f'edit{note[5]}')
         item3 = types.InlineKeyboardButton(
@@ -98,8 +102,8 @@ def callback_inline(call):
                     text='Deleted',
                     reply_markup=None)
             elif call.data.startswith(mark_str):
-                sqlighter.update('status', 1, 'id', call.data[len(mark_str):])
-                bot.send_message(call.message.chat.id, call.data)
+                sqlighter.update('status', call.data[-1], 'id', call.data[len(mark_str):len(call.data)-1])
+                # print(call.message)
                 bot.edit_message_text(
                     chat_id=call.message.chat.id,
                     message_id=call.message.message_id,
