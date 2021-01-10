@@ -44,6 +44,16 @@ class SQLighter:
             return None
         return self.cursor.fetchall()
 
+    def update(self, parameter_to_set, value_to_set, parameter_to_search, value_to_search):
+        try:
+            sql = f"UPDATE notes SET {parameter_to_set}=? WHERE {parameter_to_search}=?"
+            self.cursor.execute(sql, [value_to_set, value_to_search])
+            self.connection.commit()
+        except sqlite3.Error as e:
+            print(f'Error: {e}')
+            return False
+        return True
+
     def delete(self, parameter, value):
         try:
             sql = f"DELETE FROM notes WHERE {parameter}=?"
