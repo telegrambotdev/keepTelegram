@@ -57,6 +57,18 @@ class DBTest2(unittest.TestCase, Parent):
                 ('test_id', 'test_header', 'test_text', 1, 'test_time', self.timestamp)])
         self.assertListEqual(self.SQLighter.get(parameter, ''), [])
 
+    def test_update(self):
+        """Test updating the data"""
+        parameter_to_set = 'chat_id'
+        value_to_set = 'test_id1'
+        parameter_to_search = 'chat_id'
+        value_to_search = 'test_id'
+        self.assertTrue(self.SQLighter.update(parameter_to_set, value_to_set, parameter_to_search, value_to_search))
+        self.assertFalse(self.SQLighter.update('', '', '', ''))
+        self.assertFalse(self.SQLighter.update('', '', '', None))
+        data = self.SQLighter.get(parameter_to_search, value_to_set)
+        self.assertEqual(value_to_set, data[0][0])
+
 
 class DBTest3(unittest.TestCase, Parent):
     """Second class for testing work with database"""
