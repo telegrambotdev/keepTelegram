@@ -103,15 +103,14 @@ def callback_inline(call):
                     reply_markup=None)
             elif call.data.startswith(mark_str):
                 sqlighter.update('status', call.data[-1], 'id', call.data[len(mark_str):len(call.data)-1])
-                # print(call.message)
                 bot.edit_message_text(
                     chat_id=call.message.chat.id,
                     message_id=call.message.message_id,
-                    text='Marked',
+                    text='State updated',
                     reply_markup=None)
 
     except Exception as e:
-        print(repr(e))
+        print(f'Error: {e}')
     sqlighter.close()
 
 
