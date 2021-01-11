@@ -88,12 +88,13 @@ def callback_inline(call):
     try:
         if call.message:
             if call.data.startswith(edit_str):
-                bot.send_message(call.message.chat.id, call.data)
+                bot.send_message(call.message.chat.id, 'Edit this note with ID and /edit command')
                 bot.edit_message_text(
                     chat_id=call.message.chat.id,
                     message_id=call.message.message_id,
-                    text='Edited',
-                    reply_markup=None)
+                    text=f'Note <strong>ID</strong>: <i>{call.data[len(edit_str):]}</i>',
+                    reply_markup=None,
+                    parse_mode='HTML')
             elif call.data.startswith(delete_str):
                 sqlighter.delete(parameter, call.data[len(delete_str):])
                 bot.edit_message_text(
