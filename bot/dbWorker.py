@@ -44,7 +44,12 @@ class SQLighter:
             return None
         return self.cursor.fetchall()
 
-    def update(self, parameter_to_set, value_to_set, parameter_to_search, value_to_search):
+    def update(
+            self,
+            parameter_to_set,
+            value_to_set,
+            parameter_to_search,
+            value_to_search):
         try:
             sql = f"UPDATE notes SET {parameter_to_set}=? WHERE {parameter_to_search}=?"
             self.cursor.execute(sql, [value_to_set, value_to_search])

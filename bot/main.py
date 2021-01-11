@@ -64,10 +64,16 @@ def add_note(message):
         note = sqlighter.get('id', data[0])
         if note:
             for i in range(len(note_fields)):
-                sqlighter.update(note_fields[i], data[i+1], 'id', data[0])
-            bot.send_message(chat_id, f'Your note with new header \"<strong>{data[1]}</strong>\" has been updated', parse_mode='HTML')
+                sqlighter.update(note_fields[i], data[i + 1], 'id', data[0])
+            bot.send_message(
+                chat_id,
+                f'Your note with new header \"<strong>{data[1]}</strong>\" has been updated',
+                parse_mode='HTML')
         else:
-            bot.send_message(chat_id, f'Note with ID <i>{data[0]}</i> doesn\'t exists. Please check it', parse_mode='HTML')
+            bot.send_message(
+                chat_id,
+                f'Note with ID <i>{data[0]}</i> doesn\'t exists. Please check it',
+                parse_mode='HTML')
     else:
         bot.send_message(chat_id, 'Please, write you command correctly')
     print('Closing connection is successful')
@@ -85,7 +91,8 @@ def get_notes(message):
         # Markup for note
         markup = types.InlineKeyboardMarkup(row_width=3)
         item1 = types.InlineKeyboardButton(
-            f'Mark as \"{status_codes[note[3]].get("str")}\"', callback_data=f'mark{note[5]}{status_codes[note[3]].get("int")}')
+            f'Mark as \"{status_codes[note[3]].get("str")}\"',
+            callback_data=f'mark{note[5]}{status_codes[note[3]].get("int")}')
         item2 = types.InlineKeyboardButton(
             'Edit', callback_data=f'edit{note[5]}')
         item3 = types.InlineKeyboardButton(
@@ -107,7 +114,9 @@ def callback_inline(call):
     try:
         if call.message:
             if call.data.startswith(edit_str):
-                bot.send_message(call.message.chat.id, 'Edit this note with ID and /edit command')
+                bot.send_message(
+                    call.message.chat.id,
+                    'Edit this note with ID and /edit command')
                 bot.edit_message_text(
                     chat_id=call.message.chat.id,
                     message_id=call.message.message_id,
@@ -122,7 +131,10 @@ def callback_inline(call):
                     text='Deleted',
                     reply_markup=None)
             elif call.data.startswith(mark_str):
-                sqlighter.update('status', call.data[-1], 'id', call.data[len(mark_str):len(call.data)-1])
+                sqlighter.update('status',
+                                 call.data[-1],
+                                 'id',
+                                 call.data[len(mark_str):len(call.data) - 1])
                 bot.edit_message_text(
                     chat_id=call.message.chat.id,
                     message_id=call.message.message_id,

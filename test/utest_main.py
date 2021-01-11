@@ -63,7 +63,12 @@ class DBTest2(unittest.TestCase, Parent):
         value_to_set = 'test_id1'
         parameter_to_search = 'chat_id'
         value_to_search = 'test_id'
-        self.assertTrue(self.SQLighter.update(parameter_to_set, value_to_set, parameter_to_search, value_to_search))
+        self.assertTrue(
+            self.SQLighter.update(
+                parameter_to_set,
+                value_to_set,
+                parameter_to_search,
+                value_to_search))
         self.assertFalse(self.SQLighter.update('', '', '', ''))
         self.assertFalse(self.SQLighter.update('', '', '', None))
         data = self.SQLighter.get(parameter_to_search, value_to_set)
