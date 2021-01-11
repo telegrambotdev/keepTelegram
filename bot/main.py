@@ -56,7 +56,7 @@ def add_note(message):
 
 
 @bot.message_handler(commands=['edit'])
-def add_note(message):
+def edit_note(message):
     sqlighter = dbWorker.SQLighter(os.getenv('DB_PATH'))
     chat_id = message.chat.id
     data = message.text.split('\n')[1:]
