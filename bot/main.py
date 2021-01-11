@@ -12,6 +12,7 @@ status_codes = {
     0: {'str': 'ready', 'int': 1},
     1: {'str': 'unready', 'int': 0},
 }
+note_fields = ['header', 'text', 'time']
 # ------------ Program variables end ------------ #
 
 
@@ -51,6 +52,24 @@ def add_note(message):
                 chat_id, f'Note with the header \"{data[0]}\" exists')
     else:
         bot.send_message(chat_id, 'Please, write you message correctly')
+    print('Closing connection is successful')
+
+
+@bot.message_handler(commands=['edit'])
+def add_note(message):
+    sqlighter = dbWorker.SQLighter(os.getenv('DB_PATH'))
+    chat_id = message.chat.id
+    data = message.text.split('\n')[1:]
+    if len(data) == 4:
+        note = sqlighter.get('id', data[0])
+        if note:
+            for i in range(len(note_fields)):
+                sqlighter.update(note_fields[i], data[i+1], 'id', data[0])
+            bot.send_message(chat_id, f'Your note with new header \"<strong>{data[1]}</strong>\" has been updated', parse_mode='HTML')
+        else:
+            bot.send_message(chat_id, f'Note with ID <i>{data[0]}</i> doesn\'t exists. Please check it', parse_mode='HTML')
+    else:
+        bot.send_message(chat_id, 'Please, write you command correctly')
     print('Closing connection is successful')
 
 
