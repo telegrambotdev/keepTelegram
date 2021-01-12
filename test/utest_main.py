@@ -3,7 +3,7 @@ import requests
 import unittest
 import time
 
-from bot import dbWorker
+from bot import dbWorker, utils
 
 
 class Parent:
@@ -119,3 +119,10 @@ class TelegramTest(unittest.TestCase, Parent):
         self.assertEqual(
             self.sendMessage.json()["result"]["text"],
             self.test_text)
+
+
+class FunctionsTest(unittest.TestCase):
+    """Class for testing user functions"""
+    def test_note_template(self):
+        self.assertTrue(utils.check_time('18/09/19 01:55:19'))
+        self.assertFalse(utils.check_time('time'))
