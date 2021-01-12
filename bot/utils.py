@@ -1,3 +1,4 @@
+"""Utils for bot"""
 from datetime import datetime
 
 # ------------ Program variable start ----------- #
@@ -11,6 +12,7 @@ note_fields = ['header', 'text', 'time']
 
 # ------------ Program functions start ---------- #
 def note_template(data):
+    """Create note template"""
     return f"""
 <strong>Header</strong>: <i>{data[1]}</i>
 <strong>Text</strong>: <i>{data[2]}</i>
@@ -20,10 +22,11 @@ def note_template(data):
 
 
 def check_time(date_time_str):
+    """Check if date format is correct"""
     try:
         datetime.strptime(date_time_str, '%d/%m/%y %H:%M:%S')
         return True
-    except ValueError as e:
-        print(f'Error: {e}')
+    except ValueError as error:
+        print(f'Error: {error}')
         return False
 # ------------ Program functions end ------------ #
