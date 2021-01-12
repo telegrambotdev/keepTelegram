@@ -1,9 +1,10 @@
-from bot import dbWorker
 import os
 import time
-from utils import *
-from telebot import types, TeleBot
+
 from dotenv import load_dotenv
+from telebot import types, TeleBot
+
+from bot import dbWorker, utils
 
 load_dotenv()
 bot = TeleBot(os.getenv("TOKEN"))
@@ -24,7 +25,7 @@ def add_note(message):
     if len(data) == 3:
         note = sqlighter.get('id', timestamp)
         if not note:
-            if check_time(data[2]):
+            if utils.check_time(data[2]):
                 sqlighter.add([
                     chat_id, data[0], data[1], 0, data[2], timestamp])
                 bot.send_message(
@@ -49,9 +50,9 @@ def edit_note(message):
     if len(data) == 4:
         note = sqlighter.get('id', data[0])
         if note:
-            if check_time(data[3]):
-                for i in range(len(note_fields)):
-                    sqlighter.update(note_fields[i], data[i + 1], 'id', data[0])
+            if utils.check_time(data[3]):
+                for i in range(len(utils.note_fields)):
+                    sqlighter.update(utils.note_fields[i], data[i + 1], 'id', data[0])
                 bot.send_message(
                     chat_id,
                     f'Your note with new header \"<strong>{data[1]}</strong>\" has been updated',
@@ -77,13 +78,13 @@ def get_notes(message):
     chat_id = message.chat.id
     data = sqlighter.get('chat_id', chat_id)
     for note in data:
-        msg = note_template(note)  # message template
+        msg = utils.note_template(note)  # message template
 
         # Markup for note
         markup = types.InlineKeyboardMarkup(row_width=3)
         item1 = types.InlineKeyboardButton(
-            f'Mark as \"{status_codes[note[3]].get("reverse_str")}\"',
-            callback_data=f'mark{note[5]}{status_codes[note[3]].get("int")}')
+            f'Mark as \"{utils.status_codes[note[3]].get("reverse_str")}\"',
+            callback_data=f'mark{note[5]}{utils.status_codes[note[3]].get("int")}')
         item2 = types.InlineKeyboardButton(
             'Edit', callback_data=f'edit{note[5]}')
         item3 = types.InlineKeyboardButton(
