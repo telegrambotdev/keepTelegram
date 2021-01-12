@@ -76,12 +76,15 @@ def edit_note(message):
     if len(data) == 4:
         note = sqlighter.get('id', data[0])
         if note:
-            for i in range(len(note_fields)):
-                sqlighter.update(note_fields[i], data[i + 1], 'id', data[0])
-            bot.send_message(
-                chat_id,
-                f'Your note with new header \"<strong>{data[1]}</strong>\" has been updated',
-                parse_mode='HTML')
+            if check_time(data[3]):
+                for i in range(len(note_fields)):
+                    sqlighter.update(note_fields[i], data[i + 1], 'id', data[0])
+                bot.send_message(
+                    chat_id,
+                    f'Your note with new header \"<strong>{data[1]}</strong>\" has been updated',
+                    parse_mode='HTML')
+            else:
+                bot.send_message(chat_id, '<strong>Error!</strong> Enter the <i>datetime</i> field correctly', parse_mode='HTML')
         else:
             bot.send_message(
                 chat_id,
