@@ -123,6 +123,7 @@ class TelegramTest(unittest.TestCase, Parent):
 
 class FunctionsTest(unittest.TestCase):
     """Class for testing user functions"""
+
     def test_note_template(self):
         self.assertTrue(utils.check_time('18/09/19 01:55:19'))
         self.assertFalse(utils.check_time('time'))

@@ -31,8 +31,10 @@ def add_note(message):
                 bot.send_message(
                     chat_id, f'Your note with the header \"{data[0]}\" has been added')
             else:
-                bot.send_message(chat_id, '<strong>Error!</strong> Enter the <i>datetime</i> field correctly',
-                                 parse_mode='HTML')
+                bot.send_message(
+                    chat_id,
+                    '<strong>Error!</strong> Enter the <i>datetime</i> field correctly',
+                    parse_mode='HTML')
         else:
             bot.send_message(
                 chat_id, f'Note with the header \"{data[0]}\" exists')
@@ -52,14 +54,17 @@ def edit_note(message):
         if note:
             if utils.check_time(data[3]):
                 for i in range(len(utils.note_fields)):
-                    sqlighter.update(utils.note_fields[i], data[i + 1], 'id', data[0])
+                    sqlighter.update(
+                        utils.note_fields[i], data[i + 1], 'id', data[0])
                 bot.send_message(
                     chat_id,
                     f'Your note with new header \"<strong>{data[1]}</strong>\" has been updated',
                     parse_mode='HTML')
             else:
-                bot.send_message(chat_id, '<strong>Error!</strong> Enter the <i>datetime</i> field correctly',
-                                 parse_mode='HTML')
+                bot.send_message(
+                    chat_id,
+                    '<strong>Error!</strong> Enter the <i>datetime</i> field correctly',
+                    parse_mode='HTML')
         else:
             bot.send_message(
                 chat_id,
