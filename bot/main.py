@@ -1,10 +1,11 @@
+"""Main file of the bot"""
 import os
 import time
 
 from dotenv import load_dotenv
 from telebot import types, TeleBot
 
-from bot import dbWorker, utils
+from bot import db_worker, utils
 
 load_dotenv()
 bot = TeleBot(os.getenv("TOKEN"))
@@ -12,13 +13,15 @@ bot = TeleBot(os.getenv("TOKEN"))
 
 # ------------ Bot functions start ---------- #
 @bot.message_handler(commands=['help'])
-def send_welcome(message):
+def help_command(message):
+    """Help command handler"""
     bot.reply_to(message, 'Hello, how are you?')
 
 
 @bot.message_handler(commands=['add'])
 def add_note(message):
-    sqlighter = dbWorker.SQLighter(os.getenv('DB_PATH'))
+    """Add command handler"""
+    sqlighter = db_worker.SQLighter(os.getenv('DB_PATH'))
     chat_id = message.chat.id
     data = message.text.split('\n')[1:]
     timestamp = time.time()
@@ -46,7 +49,8 @@ def add_note(message):
 
 @bot.message_handler(commands=['edit'])
 def edit_note(message):
-    sqlighter = dbWorker.SQLighter(os.getenv('DB_PATH'))
+    """Edit command handler"""
+    sqlighter = db_worker.SQLighter(os.getenv('DB_PATH'))
     chat_id = message.chat.id
     data = message.text.split('\n')[1:]
     if len(data) == 4:
@@ -78,7 +82,8 @@ def edit_note(message):
 
 @bot.message_handler(commands=['get'])
 def get_notes(message):
-    sqlighter = dbWorker.SQLighter(os.getenv('DB_PATH'))
+    """Get command handler"""
+    sqlighter = db_worker.SQLighter(os.getenv('DB_PATH'))
     bot.reply_to(message, 'Your notes:')
     chat_id = message.chat.id
     data = sqlighter.get('chat_id', chat_id)
@@ -103,7 +108,8 @@ def get_notes(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
-    sqlighter = dbWorker.SQLighter(os.getenv('DB_PATH'))
+    """Callbacks handler"""
+    sqlighter = db_worker.SQLighter(os.getenv('DB_PATH'))
     parameter = 'id'
     edit_str = 'edit'
     delete_str = 'delete'
@@ -138,14 +144,15 @@ def callback_inline(call):
                     text='State updated',
                     reply_markup=None)
 
-    except Exception as e:
-        print(f'Error: {e}')
+    except Exception as error:
+        print(f'Error: {error}')
     sqlighter.close()
     print('Closing connection is successful')
 
 
 @bot.message_handler(func=lambda message: True)
 def echo_all(message):
+    """Echo all messages from user"""
     bot.reply_to(message, message.text)
 
 # ------------ Bot functions end ------------ #

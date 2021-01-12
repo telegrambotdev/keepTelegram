@@ -3,7 +3,7 @@ import requests
 import unittest
 import time
 
-from bot import dbWorker, utils
+from bot import db_worker, utils
 
 
 class Parent:
@@ -15,7 +15,7 @@ class Parent:
     bot_name = 'Telegram Keep'
     chat_id = os.getenv('CHAT_ID')
     test_text = 'test'
-    SQLighter = dbWorker.SQLighter(path)
+    SQLighter = db_worker.SQLighter(path)
     timestamp = time.time()
 
 
@@ -29,7 +29,7 @@ class DBTest1(unittest.TestCase, Parent):
 
     def test_conn(self):
         """Test connection to database"""
-        self.assertIsNotNone(dbWorker.SQLighter(self.path))
+        self.assertIsNotNone(db_worker.SQLighter(self.path))
 
 
 class DBTest2(unittest.TestCase, Parent):
@@ -125,5 +125,6 @@ class FunctionsTest(unittest.TestCase):
     """Class for testing user functions"""
 
     def test_note_template(self):
+        """Test the date conversion ability"""
         self.assertTrue(utils.check_time('18/09/19 01:55:19'))
         self.assertFalse(utils.check_time('time'))
