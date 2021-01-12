@@ -144,7 +144,7 @@ def callback_inline(call):
                     text='State updated',
                     reply_markup=None)
 
-    except BaseException as error:
+    except Exception as error:
         print(f'Error: {error}')
     sqlighter.close()
     print('Closing connection is successful')
