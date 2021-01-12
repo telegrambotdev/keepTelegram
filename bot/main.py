@@ -2,12 +2,11 @@ from bot import dbWorker
 import os
 import time
 from utils import *
-import telebot
-from telebot import types
+from telebot import types, TeleBot
 from dotenv import load_dotenv
 
 load_dotenv()
-bot = telebot.TeleBot(os.getenv("TOKEN"))
+bot = TeleBot(os.getenv("TOKEN"))
 
 
 # ------------ Bot functions start ---------- #
@@ -28,7 +27,6 @@ def add_note(message):
             if check_time(data[2]):
                 sqlighter.add([
                     chat_id, data[0], data[1], 0, data[2], timestamp])
-                sqlighter.close()
                 bot.send_message(
                     chat_id, f'Your note with the header \"{data[0]}\" has been added')
             else:
@@ -39,6 +37,7 @@ def add_note(message):
                 chat_id, f'Note with the header \"{data[0]}\" exists')
     else:
         bot.send_message(chat_id, 'Please, write you message correctly')
+    sqlighter.close()
     print('Closing connection is successful')
 
 
@@ -67,6 +66,7 @@ def edit_note(message):
                 parse_mode='HTML')
     else:
         bot.send_message(chat_id, 'Please, write you command correctly')
+    sqlighter.close()
     print('Closing connection is successful')
 
 
@@ -135,6 +135,7 @@ def callback_inline(call):
     except Exception as e:
         print(f'Error: {e}')
     sqlighter.close()
+    print('Closing connection is successful')
 
 
 @bot.message_handler(func=lambda message: True)
