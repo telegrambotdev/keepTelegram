@@ -10,8 +10,8 @@ load_dotenv()
 # ------------ Program variable start ----------- #
 bot = telebot.TeleBot(os.getenv("TOKEN"))
 status_codes = {
-    0: {'str': 'ready', 'int': 1},
-    1: {'str': 'unready', 'int': 0},
+    0: {'str': 'unready', 'reverse_str': 'ready', 'int': 1},
+    1: {'str': 'ready', 'reverse_str': 'unready', 'int': 0},
 }
 note_fields = ['header', 'text', 'time']
 # ------------ Program variables end ------------ #
@@ -22,7 +22,7 @@ def note_template(data):
     return f"""
 <strong>Header</strong>: <i>{data[1]}</i>
 <strong>Text</strong>: <i>{data[2]}</i>
-<strong>Status</strong>: <i>{data[3]}</i>
+<strong>Status</strong>: <i>{status_codes[data[3]].get('str')}</i>
 <strong>Due time</strong>: <i>{data[4]}</i>
 """
 
@@ -52,11 +52,14 @@ def add_note(message):
     if len(data) == 3:
         note = sqlighter.get('id', timestamp)
         if not note:
-            sqlighter.add([
-                chat_id, data[0], data[1], 0, data[2], timestamp])
-            sqlighter.close()
-            bot.send_message(
-                chat_id, f'Your note with the header \"{data[0]}\" has been added')
+            if check_time(data[2]):
+                sqlighter.add([
+                    chat_id, data[0], data[1], 0, data[2], timestamp])
+                sqlighter.close()
+                bot.send_message(
+                    chat_id, f'Your note with the header \"{data[0]}\" has been added')
+            else:
+                bot.send_message(chat_id, '<strong>Error!</strong> Enter the <i>datetime</i> field correctly', parse_mode='HTML')
         else:
             bot.send_message(
                 chat_id, f'Note with the header \"{data[0]}\" exists')
@@ -101,7 +104,7 @@ def get_notes(message):
         # Markup for note
         markup = types.InlineKeyboardMarkup(row_width=3)
         item1 = types.InlineKeyboardButton(
-            f'Mark as \"{status_codes[note[3]].get("str")}\"',
+            f'Mark as \"{status_codes[note[3]].get("reverse_str")}\"',
             callback_data=f'mark{note[5]}{status_codes[note[3]].get("int")}')
         item2 = types.InlineKeyboardButton(
             'Edit', callback_data=f'edit{note[5]}')
