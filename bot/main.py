@@ -1,6 +1,7 @@
 from bot import dbWorker
 import os
 import time
+from datetime import datetime
 import telebot
 from telebot import types
 from dotenv import load_dotenv
@@ -24,6 +25,15 @@ def note_template(data):
 <strong>Status</strong>: <i>{data[3]}</i>
 <strong>Due time</strong>: <i>{data[4]}</i>
 """
+
+
+def check_time(date_time_str):
+    try:
+        datetime.strptime(date_time_str, '%d/%m/%y %H:%M:%S')
+        return True
+    except ValueError as e:
+        print(f'Error: {e}')
+        return False
 # ------------ Program functions end ------------ #
 
 
