@@ -152,8 +152,16 @@ def callback_inline(call):
                     # print(value_to_search)
                     note = sqlighter.get('id', note_id)
                     due_time = utils.get_time_obj(note[0][4])
-                    now = datetime.now().timestamp()
-                    print(datetime.timestamp(due_time), now)
+                    now_timestamp = datetime.now().timestamp()
+                    due_time_timestamp = datetime.timestamp(due_time)
+                    if now_timestamp - due_time_timestamp > 0:
+                        # show alert
+                        bot.answer_callback_query(callback_query_id=call.id, show_alert=True,
+                                                  text="ЭТО ТЕСТОВОЕ УВЕДОМЛЕНИЕ!!11")
+                    else:
+                        # show alert
+                        bot.answer_callback_query(callback_query_id=call.id, show_alert=True,
+                                                  text="ЭТО ТЕСТОВОЕ УВЕДОМЛЕНИЕ!!11")
                 sqlighter.update('status',
                                  value_to_set,
                                  'id',
