@@ -16,7 +16,7 @@ bot = TeleBot(os.getenv("TOKEN"))
 @bot.message_handler(commands=['start'])
 def start_command(message):
     """Start command handler"""
-    # keyboard
+    # Keyboard
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     item1 = types.KeyboardButton(utils.buttons_text['get_text'])
     item2 = types.KeyboardButton(utils.buttons_text['add_text'])
@@ -148,29 +148,29 @@ def callback_inline(call):
             elif call.data.startswith(mark_str):
                 value_to_set = call.data[-1]
                 note_id = call.data[len(mark_str):len(call.data) - 1]
-                if value_to_set == '1':
-                    # print(value_to_search)
-                    note = sqlighter.get('id', note_id)
-                    due_time = utils.get_time_obj(note[0][4])
-                    now_timestamp = datetime.now().timestamp()
-                    due_time_timestamp = datetime.timestamp(due_time)
-                    if now_timestamp - due_time_timestamp > 0:
-                        # show alert
-                        bot.answer_callback_query(callback_query_id=call.id, show_alert=True,
-                                                  text="ЭТО ТЕСТОВОЕ УВЕДОМЛЕНИЕ!!11")
-                    else:
-                        # show alert
-                        bot.answer_callback_query(callback_query_id=call.id, show_alert=True,
-                                                  text="ЭТО ТЕСТОВОЕ УВЕДОМЛЕНИЕ!!11")
                 sqlighter.update('status',
                                  value_to_set,
                                  'id',
                                  note_id)
+                note = sqlighter.get('id', note_id)[0]
+                if value_to_set == '1':
+                    due_time = utils.get_time_obj(note[4])
+                    now_timestamp = datetime.now().timestamp()
+                    due_time_timestamp = datetime.timestamp(due_time)
+                    if now_timestamp - due_time_timestamp > 0:
+                        # Show alert
+                        bot.answer_callback_query(callback_query_id=call.id, show_alert=True,
+                                                  text='You did not have time to complete the task. Try better next time\N{grinning face}')
+                    else:
+                        # Show alert
+                        bot.answer_callback_query(callback_query_id=call.id, show_alert=True,
+                                                  text='Hooray! You managed to complete the task on time. Do not slow down\N{flexed biceps}')
+
                 bot.edit_message_text(
                     chat_id=call.message.chat.id,
                     message_id=call.message.message_id,
-                    text='State updated',
-                    reply_markup=None)
+                    text=utils.note_template(note),
+                    parse_mode='HTML')
 
     except Exception as error:
         print(f'Error: {error}')
