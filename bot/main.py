@@ -12,6 +12,17 @@ bot = TeleBot(os.getenv("TOKEN"))
 
 
 # ------------ Bot functions start ---------- #
+@bot.message_handler(commands=['start'])
+def start_command(message):
+    """Start command handler"""
+    # keyboard
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    item1 = types.KeyboardButton('Get list of available commands')
+    item2 = types.KeyboardButton('Add a new note')
+    markup.add(item1, item2)
+    bot.send_message(message.chat.id, 'Hello, how are you?', reply_markup=markup)
+
+
 @bot.message_handler(commands=['help'])
 def help_command(message):
     """Help command handler"""
