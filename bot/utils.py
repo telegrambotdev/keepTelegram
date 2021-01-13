@@ -7,6 +7,7 @@ status_codes = {
     1: {'str': 'ready', 'reverse_str': 'unready', 'int': 0},
 }
 note_fields = ['header', 'text', 'time']
+buttons_text = ['Get list of available commands', 'Add a new note']
 # ------------ Program variables end ------------ #
 
 
