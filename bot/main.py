@@ -17,8 +17,8 @@ def start_command(message):
     """Start command handler"""
     # keyboard
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    item1 = types.KeyboardButton(utils.buttons_text[0])
-    item2 = types.KeyboardButton(utils.buttons_text[1])
+    item1 = types.KeyboardButton(utils.buttons_text['get_text'])
+    item2 = types.KeyboardButton(utils.buttons_text['add_text'])
     markup.add(item1, item2)
     bot.send_message(message.chat.id, 'Hello, how are you?', reply_markup=markup)
 
@@ -164,9 +164,9 @@ def callback_inline(call):
 @bot.message_handler(func=lambda message: True)
 def echo_all(message):
     """Echo all messages from user"""
-    if message.text == utils.buttons_text[0]:
+    if message.text == utils.buttons_text['get_text']:
         help_command(message)
-    elif message.text == utils.buttons_text[1]:
+    elif message.text == utils.buttons_text['add_text']:
         bot.reply_to(message, 'Type /add command')
 
 # ------------ Bot functions end ------------ #
