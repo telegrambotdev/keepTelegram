@@ -1,6 +1,7 @@
 """Main file of the bot"""
 import os
 import time
+from datetime import datetime
 
 from dotenv import load_dotenv
 from telebot import types, TeleBot
@@ -145,10 +146,17 @@ def callback_inline(call):
                     text='Deleted',
                     reply_markup=None)
             elif call.data.startswith(mark_str):
+                value_to_set = call.data[-1]
+                note_id = call.data[len(mark_str):len(call.data) - 1]
+                if value_to_set == '1':
+                    # print(value_to_search)
+                    note = sqlighter.get('id', note_id)
+                    due_time = utils.get_time_obj(note[0][4])
+                    print(datetime.timestamp(due_time))
                 sqlighter.update('status',
-                                 call.data[-1],
+                                 value_to_set,
                                  'id',
-                                 call.data[len(mark_str):len(call.data) - 1])
+                                 note_id)
                 bot.edit_message_text(
                     chat_id=call.message.chat.id,
                     message_id=call.message.message_id,
