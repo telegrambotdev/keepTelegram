@@ -28,7 +28,7 @@ def add_note(message):
     if len(data) == 3:
         note = sqlighter.get('id', timestamp)
         if not note:
-            if utils.check_time(data[2]):
+            if utils.get_time_obj(data[2]):
                 sqlighter.add([
                     chat_id, data[0], data[1], 0, data[2], timestamp])
                 bot.send_message(
@@ -56,7 +56,7 @@ def edit_note(message):
     if len(data) == 4:
         note = sqlighter.get('id', data[0])
         if note:
-            if utils.check_time(data[3]):
+            if utils.get_time_obj(data[3]):
                 for i in range(len(utils.note_fields)):
                     sqlighter.update(
                         utils.note_fields[i], data[i + 1], 'id', data[0])

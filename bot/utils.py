@@ -21,12 +21,12 @@ def note_template(data):
 """
 
 
-def check_time(date_time_str):
+def get_time_obj(date_time_str):
     """Check if date format is correct"""
     try:
-        datetime.strptime(date_time_str, '%d/%m/%y %H:%M:%S')
-        return True
+        date_time_obj = datetime.strptime(date_time_str, '%d/%m/%y %H:%M:%S')
+        return date_time_obj
     except ValueError as error:
         print(f'Error: {error}')
-        return False
+        return None
 # ------------ Program functions end ------------ #
