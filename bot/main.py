@@ -152,7 +152,8 @@ def callback_inline(call):
                     # print(value_to_search)
                     note = sqlighter.get('id', note_id)
                     due_time = utils.get_time_obj(note[0][4])
-                    print(datetime.timestamp(due_time))
+                    now = datetime.now().timestamp()
+                    print(datetime.timestamp(due_time), now)
                 sqlighter.update('status',
                                  value_to_set,
                                  'id',
