@@ -1,8 +1,10 @@
+"""Main file of test system"""
 import os
-import requests
 import unittest
 import time
 from datetime import datetime
+
+import requests
 
 from bot import db_worker, utils
 
