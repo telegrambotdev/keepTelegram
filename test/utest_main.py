@@ -2,6 +2,7 @@ import os
 import requests
 import unittest
 import time
+from datetime import datetime
 
 from bot import db_worker, utils
 
@@ -126,5 +127,6 @@ class FunctionsTest(unittest.TestCase):
 
     def test_note_template(self):
         """Test the date conversion ability"""
-        self.assertTrue(utils.check_time('18/09/19 01:55:19'))
-        self.assertFalse(utils.check_time('time'))
+        self.assertIsNotNone(utils.get_time_obj('18/09/19 01:55:19'))
+        self.assertIsNone(utils.get_time_obj('time'))
+        self.assertIsInstance(utils.get_time_obj('18/09/19 01:55:19'), datetime)
