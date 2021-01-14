@@ -129,16 +129,19 @@ def get_notes(message):
 def statistics_command(message):
     """Statistics command handler"""
     sqlighter = db_worker.SQLighter(os.getenv('DB_PATH'))
-    notes = sqlighter.get('chat_id', message.chat.id)
+    chat_id = message.chat.id
+    notes = sqlighter.get('chat_id', chat_id)
     ready_num = unready_num = 0
     for note in notes:
         if note[3]:
             ready_num += 1
         else:
             unready_num += 1
-    print(ready_num, unready_num)
-
+    # print(ready_num, unready_num)
+    data = {'all_num': len(notes), 'unready_num': unready_num, 'ready_num': ready_num}
+    text = utils.statistics_template(data)
     bot.reply_to(message, 'Your statistics of all time:')
+    bot.send_message(chat_id, text, parse_mode='HTML')
 
 
 @bot.callback_query_handler(func=lambda call: True)
