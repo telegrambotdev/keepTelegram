@@ -25,9 +25,9 @@ def note_template(data):
 def statistics_template(data):
     """Create statistics template"""
     return f"""
-\N{memo} Number of all notes: {data.get('all_num')}
-\N{cross mark} Number of unready notes: {data.get('unready_num')}
-\N{check mark} Number of ready notes: {data.get('ready_num')}
+\N{memo} Number of <strong>all</strong> notes: <i>{data.get('all_num')}</i>
+\N{cross mark} Number of <strong>unready</strong> notes: <i>{data.get('unready_num')}</i>
+\N{check mark} Number of <strong>ready</strong> notes: <i>{data.get('ready_num')}</i>
 """
 
 
