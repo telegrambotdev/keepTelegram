@@ -21,14 +21,20 @@ def start_command(message):
     item1 = types.KeyboardButton(utils.buttons_text['get_text'])
     item2 = types.KeyboardButton(utils.buttons_text['add_text'])
     markup.add(item1, item2)
-    bot.send_message(message.chat.id, 'Hello, how are you?', reply_markup=markup)
+    bot.send_message(
+        message.chat.id,
+        'Hello, how are you?',
+        reply_markup=markup)
 
 
 @bot.message_handler(commands=['remove'])
 def remove_command(message):
     """Remove command handler"""
     hide_markup = types.ReplyKeyboardRemove()
-    bot.send_message(message.chat.id, 'Keyboard removed', reply_markup=hide_markup)
+    bot.send_message(
+        message.chat.id,
+        'Keyboard removed',
+        reply_markup=hide_markup)
 
 
 @bot.message_handler(commands=['help'])
@@ -138,7 +144,10 @@ def statistics_command(message):
         else:
             unready_num += 1
     # print(ready_num, unready_num)
-    data = {'all_num': len(notes), 'unready_num': unready_num, 'ready_num': ready_num}
+    data = {
+        'all_num': len(notes),
+        'unready_num': unready_num,
+        'ready_num': ready_num}
     text = utils.statistics_template(data)
     bot.reply_to(message, 'Your statistics of all time:')
     bot.send_message(chat_id, text, parse_mode='HTML')
@@ -185,12 +194,16 @@ def callback_inline(call):
                     due_time_timestamp = datetime.timestamp(due_time)
                     if now_timestamp - due_time_timestamp > 0:
                         # Show alert
-                        bot.answer_callback_query(callback_query_id=call.id, show_alert=True,
-                                                  text='You did not have time to complete the task. Try better next time\N{grinning face}')
+                        bot.answer_callback_query(
+                            callback_query_id=call.id,
+                            show_alert=True,
+                            text='You did not have time to complete the task. Try better next time\N{grinning face}')
                     else:
                         # Show alert
-                        bot.answer_callback_query(callback_query_id=call.id, show_alert=True,
-                                                  text='Hooray! You managed to complete the task on time. Do not slow down\N{flexed biceps}')
+                        bot.answer_callback_query(
+                            callback_query_id=call.id,
+                            show_alert=True,
+                            text='Hooray! You managed to complete the task on time. Do not slow down\N{flexed biceps}')
 
                 bot.edit_message_text(
                     chat_id=call.message.chat.id,

@@ -131,4 +131,5 @@ class FunctionsTest(unittest.TestCase):
         """Test the date conversion ability"""
         self.assertIsNotNone(utils.get_time_obj('18/09/19 01:55:19'))
         self.assertIsNone(utils.get_time_obj('time'))
-        self.assertIsInstance(utils.get_time_obj('18/09/19 01:55:19'), datetime)
+        self.assertIsInstance(
+            utils.get_time_obj('18/09/19 01:55:19'), datetime)
