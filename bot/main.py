@@ -130,8 +130,14 @@ def statistics_command(message):
     """Statistics command handler"""
     sqlighter = db_worker.SQLighter(os.getenv('DB_PATH'))
     notes = sqlighter.get('chat_id', message.chat.id)
+    ready_num = unready_num = 0
     for note in notes:
-        print(note)
+        if note[3]:
+            ready_num += 1
+        else:
+            unready_num += 1
+    print(ready_num, unready_num)
+
     bot.reply_to(message, 'Hello, how are you?')
 
 
