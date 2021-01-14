@@ -22,6 +22,14 @@ def note_template(data):
 """
 
 
+def statistics_template(data):
+    """Create statistics template"""
+    return f"""
+\N{cross mark} Number of unready notes: {data.get('unready_num')}
+\N{check mark} Number of ready notes: {data.get('ready_num')}
+"""
+
+
 def get_time_obj(date_time_str):
     """Check if date format is correct"""
     try:

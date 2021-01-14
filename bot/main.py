@@ -138,7 +138,7 @@ def statistics_command(message):
             unready_num += 1
     print(ready_num, unready_num)
 
-    bot.reply_to(message, 'Hello, how are you?')
+    bot.reply_to(message, 'Your statistics of all time:')
 
 
 @bot.callback_query_handler(func=lambda call: True)
