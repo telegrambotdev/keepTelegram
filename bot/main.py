@@ -25,7 +25,7 @@ def start_command(message):
 
 
 @bot.message_handler(commands=['remove'])
-def start_command(message):
+def remove_command(message):
     """Remove command handler"""
     hide_markup = types.ReplyKeyboardRemove()
     bot.send_message(message.chat.id, 'Keyboard removed', reply_markup=hide_markup)
@@ -123,6 +123,16 @@ def get_notes(message):
         bot.send_message(chat_id, msg, parse_mode='HTML', reply_markup=markup)
     sqlighter.close()
     print('Closing connection is successful')
+
+
+@bot.message_handler(commands=['statistics'])
+def statistics_command(message):
+    """Statistics command handler"""
+    sqlighter = db_worker.SQLighter(os.getenv('DB_PATH'))
+    notes = sqlighter.get('chat_id', message.chat.id)
+    for note in notes:
+        print(note)
+    bot.reply_to(message, 'Hello, how are you?')
 
 
 @bot.callback_query_handler(func=lambda call: True)
