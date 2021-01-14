@@ -127,7 +127,7 @@ class TelegramTest(unittest.TestCase, Parent):
 class FunctionsTest(unittest.TestCase):
     """Class for testing user functions"""
 
-    def test_note_template(self):
+    def test_time_function(self):
         """Test the date conversion ability"""
         self.assertIsNotNone(utils.get_time_obj('18/09/19 01:55:19'))
         self.assertIsNone(utils.get_time_obj('time'))
