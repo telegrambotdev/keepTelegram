@@ -37,12 +37,6 @@ def remove_command(message):
         reply_markup=hide_markup)
 
 
-@bot.message_handler(commands=['help'])
-def help_command(message):
-    """Help command handler"""
-    bot.reply_to(message, 'Hello, how are you?')
-
-
 @bot.message_handler(commands=['add'])
 def add_note(message):
     """Add command handler"""
@@ -143,7 +137,6 @@ def statistics_command(message):
             ready_num += 1
         else:
             unready_num += 1
-    # print(ready_num, unready_num)
     data = {
         'all_num': len(notes),
         'unready_num': unready_num,
@@ -151,6 +144,20 @@ def statistics_command(message):
     text = utils.statistics_template(data)
     bot.reply_to(message, 'Your statistics of all time:')
     bot.send_message(chat_id, text, parse_mode='HTML')
+
+
+@bot.message_handler(commands=['help'])
+def help_command(message):
+    """Help command handler"""
+    bot.send_message(message.chat.id, """
+        /add - Add a new note
+/get - Get all your notes
+/edit - Edit a note
+/templates - Show templates for /add and /edit commands
+/remove - Remove a keyboard
+/statistics - Show your statistics of all time
+/help - List of all commands
+    """)
 
 
 @bot.callback_query_handler(func=lambda call: True)
