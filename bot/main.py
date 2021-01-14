@@ -24,6 +24,13 @@ def start_command(message):
     bot.send_message(message.chat.id, 'Hello, how are you?', reply_markup=markup)
 
 
+@bot.message_handler(commands=['remove'])
+def start_command(message):
+    """Remove command handler"""
+    hide_markup = types.ReplyKeyboardRemove()
+    bot.send_message(message.chat.id, 'Keyboard removed', reply_markup=hide_markup)
+
+
 @bot.message_handler(commands=['help'])
 def help_command(message):
     """Help command handler"""
