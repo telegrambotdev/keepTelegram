@@ -61,7 +61,7 @@ def add_note(message):
             bot.send_message(
                 chat_id, f'Note with the header \"{data[0]}\" exists')
     else:
-        bot.send_message(chat_id, 'Please, write you message correctly')
+        bot.send_message(chat_id, 'Please, write you message correctly. Type /templates for help')
     sqlighter.close()
 
 
@@ -93,7 +93,7 @@ def edit_note(message):
                 f'Note with ID <i>{data[0]}</i> doesn\'t exists. Please check it',
                 parse_mode='HTML')
     else:
-        bot.send_message(chat_id, 'Please, write you command correctly')
+        bot.send_message(chat_id, 'Please, write you command correctly. Type /templates for help')
     sqlighter.close()
 
 
@@ -158,7 +158,7 @@ def help_command(message):
 
 
 @bot.message_handler(commands=['templates'])
-def help_command(message):
+def templates_command(message):
     """Templates command handler"""
     chat_id = message.chat.id
     # Add template
