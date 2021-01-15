@@ -52,7 +52,7 @@ jobs:
 
       - name: Lint with pylint
         run: |
-          pylint bot
+          pylint test
 
       - name: Test with unittests
         run: |
