@@ -160,6 +160,29 @@ def help_command(message):
     """)
 
 
+@bot.message_handler(commands=['templates'])
+def help_command(message):
+    """Templates command handler"""
+    chat_id = message.chat.id
+    # Add template
+    bot.send_message(chat_id, 'Here is template for /add command:')
+    bot.send_message(chat_id, """
+        /add
+_Header of a note_
+_Text of a note_
+_Due time to do_
+    """, parse_mode='Markdown')
+    # Edit template
+    bot.send_message(chat_id, 'Here is template for /edit command:')
+    bot.send_message(chat_id, """
+        /edit
+_ID of a note_
+_Header of a note_
+_Text of a note_
+_Due time to do_
+        """, parse_mode='Markdown')
+
+
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
     """Callbacks handler"""
