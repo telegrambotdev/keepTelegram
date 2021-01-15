@@ -253,6 +253,8 @@ def echo_all(message):
         help_command(message)
     elif message.text == utils.buttons_text['add_text']:
         bot.reply_to(message, 'Type /add command')
+    else:
+        bot.reply_to(message, 'I don\'t understand you. Please, type /help')
 
 # ------------ Bot functions end ------------ #
 
