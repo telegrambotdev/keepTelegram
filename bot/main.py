@@ -61,7 +61,9 @@ def add_note(message):
             bot.send_message(
                 chat_id, f'Note with the header \"{data[0]}\" exists')
     else:
-        bot.send_message(chat_id, 'Please, write you message correctly. Type /templates for help')
+        bot.send_message(
+            chat_id,
+            'Please, write you message correctly. Type /templates for help')
     sqlighter.close()
 
 
@@ -93,7 +95,9 @@ def edit_note(message):
                 f'Note with ID <i>{data[0]}</i> doesn\'t exists. Please check it',
                 parse_mode='HTML')
     else:
-        bot.send_message(chat_id, 'Please, write you command correctly. Type /templates for help')
+        bot.send_message(
+            chat_id,
+            'Please, write you command correctly. Type /templates for help')
     sqlighter.close()
 
 
@@ -212,7 +216,8 @@ def callback_inline(call):
             # Mark button pressed
             elif call.data.startswith(mark_str):
                 value_to_set = call.data[-1]  # get value from call.data
-                note_id = call.data[len(mark_str):len(call.data) - 1]  # get note id from call.data
+                # get note id from call.data
+                note_id = call.data[len(mark_str):len(call.data) - 1]
                 sqlighter.update('status',
                                  value_to_set,
                                  'id',
