@@ -1,15 +1,12 @@
-# Project title
+# keepTelegram
 
 [![Language](https://img.shields.io/badge/language-python-brightgreen?style=flat-square)](https://www.python.org/)
 
-A little info about your project and/ or overview that explains **what** the project is about.
-
-> Hello everyone! This is the repository of my package on Python "sync-folders".
+Hello everyone! This is the repository of my bot in Telegram **"keepTelegram"**.
 
 ## Table of contents
 
-- [Project title](#project-title)
-- [The README Checklist](#the-readme-checklist)
+- [Table of contents](#table-of-contents)
 - [Motivation](#motivation)
 - [Build status](#build-status)
 - [Badges](#badges)
@@ -17,10 +14,8 @@ A little info about your project and/ or overview that explains **what** the pro
 - [Screenshots](#screenshots)
 - [Tech/framework used](#techframework-used)
 - [Features](#features)
-- [Code Example](#code-example)
 - [Installation](#installation)
 - [Fast usage](#fast-usage)
-- [API Reference](#api-reference)
 - [Tests](#tests)
 - [Contribute](#contribute)
 - [Credits](#credits)
@@ -28,7 +23,7 @@ A little info about your project and/ or overview that explains **what** the pro
 
 ## Motivation
 
-
+In fact, I don't remember why I wanted to do this project. But the idea of a [Google Keep](https://keep.google.com/) clone in the Telegram is interesting, so I started working. Unfortunately, bots do not currently have the ability to send pending messages, so it is not possible to make reminders (at least on free hosting).
 
 ## Build status
 
@@ -47,9 +42,25 @@ Other badges
 
 I'm using [Codacy](https://www.codacy.com/) to automate my code quality.
 
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
- 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/9ad5c7e70f0d4484bffaf07965543539)](https://www.codacy.com/gh/mezgoodle/keepTelegram/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mezgoodle/keepTelegram&amp;utm_campaign=Badge_Grade)
+
 ## Screenshots
+
+- Start of the work
+
+![Screenshot 1](https://raw.githubusercontent.com/mezgoodle/images/master/keepTelegram1.png)
+
+- Get all notes
+
+![Screenshot 2](https://raw.githubusercontent.com/mezgoodle/images/master/keepTelegram2.png)
+
+- Templates
+
+![Screenshot 3](https://raw.githubusercontent.com/mezgoodle/images/master/keepTelegram3.png)
+
+- Show the statistic
+
+![Screenshot 4](https://raw.githubusercontent.com/mezgoodle/images/master/keepTelegram4.png)
 
 
 ## Tech/framework used
@@ -101,9 +112,7 @@ I tried _Python unittest_ for the first time instead of [_pytest_](https://docs.
 
 ## Contribute
 
-Let people know how they can contribute into your project. A contributing guideline will be a big plus.
-
-> Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. Also look at the [CONTRIBUTING.md](link).
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. Also look at the [CONTRIBUTING.md](https://github.com/mezgoodle/keepTelegram/blob/master/CONTRIBUTING.md).
 
 ## Credits
 
