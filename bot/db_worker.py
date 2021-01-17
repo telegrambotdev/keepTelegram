@@ -1,4 +1,4 @@
-"""File for work with database"""
+"""File for work with database."""
 import sqlite3
 
 
@@ -6,11 +6,12 @@ class SQLighter:
     """Main class with all necessary methods"""
 
     def __init__(self, path):
+        """Create the connection"""
         self.connection = sqlite3.connect(path)
         self.cursor = self.connection.cursor()
 
     def create(self):
-        """Create a table in database"""
+        """Create a table in database."""
         try:
             sql = """CREATE TABLE "notes" (
                         "chat_id"	TEXT NOT NULL,
@@ -27,7 +28,7 @@ class SQLighter:
         return True
 
     def add(self, data):
-        """Insert data to database"""
+        """Insert data to database."""
         try:
             sql = f"""INSERT INTO notes
                         VALUES ('{data[0]}', '{data[1]}', '{data[2]}',
@@ -41,7 +42,7 @@ class SQLighter:
         return True
 
     def get(self, parameter, value):
-        """Get data from database"""
+        """Get data from database."""
         try:
             sql = f"SELECT * FROM notes WHERE {parameter}=?"
             self.cursor.execute(sql, [value])
@@ -56,7 +57,7 @@ class SQLighter:
             value_to_set,
             parameter_to_search,
             value_to_search):
-        """Update data in a database"""
+        """Update data in a database."""
         try:
             sql = f"UPDATE notes SET {parameter_to_set}=? WHERE {parameter_to_search}=?"
             self.cursor.execute(sql, [value_to_set, value_to_search])
@@ -68,7 +69,7 @@ class SQLighter:
         return True
 
     def delete(self, parameter, value):
-        """Delete data from a database"""
+        """Delete data from a database."""
         try:
             sql = f"DELETE FROM notes WHERE {parameter}=?"
             self.cursor.execute(sql, [value])
@@ -80,5 +81,5 @@ class SQLighter:
         return True
 
     def close(self):
-        """Close connection with a database"""
+        """Close connection with a database."""
         self.connection.close()
