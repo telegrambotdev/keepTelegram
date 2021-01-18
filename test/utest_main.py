@@ -103,13 +103,11 @@ class TelegramTest(unittest.TestCase, Parent):
     def test_conn(self):
         """Test connection with different methods"""
         self.assertEqual(self.getMe.status_code, self.ok_status_code)
-        self.assertEqual(self.getUpdates.status_code, self.ok_status_code)
         self.assertEqual(self.sendMessage.status_code, self.ok_status_code)
 
     def test_fields(self):
         """Test fields from different request methods"""
         self.assertTrue(self.getMe.json()["ok"])
-        self.assertTrue(self.getUpdates.json()["ok"])
         self.assertTrue(self.sendMessage.json()["ok"])
         self.assertTrue(self.getMe.json()["result"]["is_bot"])
         self.assertFalse(
