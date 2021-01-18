@@ -278,7 +278,7 @@ def getMessage():
 @server.route('/')
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url='https://vtl-schedule-bot.herokuapp.com/' + TOKEN)
+    bot.set_webhook(url='https://keeptelegram.herokuapp.com/' + TOKEN)
     return "!", 200
 
 
