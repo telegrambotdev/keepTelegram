@@ -5,11 +5,13 @@ from datetime import datetime
 
 from dotenv import load_dotenv
 from telebot import types, TeleBot
+from flask import Flask, request
 
 from bot import db_worker, utils
 
 load_dotenv()
-bot = TeleBot(os.getenv("TOKEN"))
+TOKEN = os.getenv('TOKEN')
+bot = TeleBot(TOKEN)
 
 
 # ------------ Bot functions start ---------- #
@@ -263,6 +265,29 @@ def echo_all(message):
 
 # ------------ Bot functions end ------------ #
 
+# ------------ Webhooks start ------------ #
+server = Flask(__name__)
 
-print("Bot started")
+
+@server.route('/' + TOKEN, methods=['POST'])
+def getMessage():
+    bot.process_new_updates([types.Update.de_json(request.stream.read().decode('utf-8'))])
+    return "!", 200
+
+
+@server.route('/')
+def webhook():
+    bot.remove_webhook()
+    bot.set_webhook(url='https://vtl-schedule-bot.herokuapp.com/' + TOKEN)
+    return "!", 200
+
+
+if __name__ == "__main__":
+    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
+    print('Bot started')
+# ------------ Webhooks end -------------- #
+
+# ------------ Polling start ------------- #
+print('Bot started')
 bot.polling(none_stop=True, interval=0)
+# ------------ Polling end --------------- #
