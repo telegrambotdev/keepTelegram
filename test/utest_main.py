@@ -96,7 +96,6 @@ class TelegramTest(unittest.TestCase, Parent):
     def setUp(self):
         """Make requests"""
         self.getMe = requests.get(self.url + 'getMe')
-        self.getUpdates = requests.get(self.url + 'getUpdates')
         self.sendMessage = requests.get(
             self.url + f'sendMessage?chat_id={self.chat_id}&text={self.test_text}')
 
