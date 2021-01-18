@@ -288,6 +288,6 @@ if __name__ == "__main__":
 # ------------ Webhooks end -------------- #
 
 # ------------ Polling start ------------- #
-print('Bot started')
-bot.polling(none_stop=True, interval=0)
+# print('Bot started')
+# bot.polling(none_stop=True, interval=0)
 # ------------ Polling end --------------- #
