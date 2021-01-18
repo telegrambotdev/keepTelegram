@@ -263,6 +263,7 @@ def echo_all(message):
     else:
         bot.reply_to(message, 'I don\'t understand you. Please, type /help')
 
+
 # ------------ Bot functions end ------------ #
 
 # ------------ Webhooks start ------------ #
