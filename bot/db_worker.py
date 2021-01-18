@@ -35,7 +35,6 @@ class SQLighter:
                       '{data[3]}', '{data[4]}', '{data[5]}')"""
             self.cursor.execute(sql)
             self.connection.commit()
-            print('Values added successfully')
         except sqlite3.Error as error:
             print(f'Error: {error}')
             return False
@@ -62,7 +61,6 @@ class SQLighter:
             sql = f"UPDATE notes SET {parameter_to_set}=? WHERE {parameter_to_search}=?"
             self.cursor.execute(sql, [value_to_set, value_to_search])
             self.connection.commit()
-            print('Values updated successfully')
         except sqlite3.Error as error:
             print(f'Error: {error}')
             return False
@@ -74,7 +72,6 @@ class SQLighter:
             sql = f"DELETE FROM notes WHERE {parameter}=?"
             self.cursor.execute(sql, [value])
             self.connection.commit()
-            print('Note has been deleted successfully')
         except sqlite3.Error as error:
             print(f'Error: {error}')
             return False
